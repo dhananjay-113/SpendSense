@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> SpendSense | Dashboard</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-theme="light">
+    <header>
+    <div class="header">
+      <div class="brand">
+        <h1>SpendSense</h1>
+        <div class="role-badge" id="role-display">Role: Admin</div>
+      </div>
+      <div class="header-controls">
+        <select
+          id="role-selector"
+          class="form-select-sm"
+          onchange="handleRoleChange(this.value)"
+        >
+          <option value="admin">Admin (Full Access)</option>
+          <option value="viewer">Viewer (Read Only)</option>
+        </select>
+        <button id="theme-toggle" class="icon-btn">
+          <i class="fas fa-moon"></i>
+        </button>
+        <div class="export-group">
+          <button class="export-btn" onclick="exportData('csv')">
+            Export CSV
+          </button>
+        </div>
+      </div>
+    </div>
+    </header>
+
+    <div class="main-content">
+      <div class="summary-grid">
+        <div class="summary-card">
+          <span class="label">Total Balance</span>
+          <div class="val" id="stat-balance">$0.00</div>
+        </div>
+        <div class="summary-card">
+          <span class="label">Total Income</span>
+          <div class="val text-success" id="stat-income">$0.00</div>
+        </div>
+        <div class="summary-card">
+          <span class="label">Total Expenses</span>
+          <div class="val text-danger" id="stat-expenses">$0.00</div>
+        </div>
+      </div>
+
+      <div class="data-grid">
+        <div class="card chart-container">
+          <h3 class="card-title">Spending Breakdown</h3>
+          <div id="category-bars" class="category-viz"></div>
+        </div>
+        <div class="card insights-container">
+          <h3 class="card-title">Smart Insights</h3>
+          <div id="insights-list"></div>
+        </div>
+      </div>
+
+      <div class="card transactions-section">
+        <div class="table-header">
+          <h3 class="card-title">Transactions</h3>
+          <div class="table-actions">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search transactions..."
+              oninput="renderAll()"
+            />
+            <select id="type-filter" onchange="renderAll()">
+              <option value="all">All Types</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table id="transaction-table">
+            <thead>
+              <tr>
+                <th onclick="handleSort('date')">
+                  Date <i class="fas fa-sort"></i>
+                </th>
+                <th onclick="handleSort('category')">
+                  Category <i class="fas fa-sort"></i>
+                </th>
+                <th onclick="handleSort('amount')">
+                  Amount <i class="fas fa-sort"></i>
+                </th>
+                <th>Type</th>
+                <th class="admin-only">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+          <div id="empty-state" class="hidden">No transactions found.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-only">
+      <div class="fab-group">
+        <button class="fab" onclick="openModal()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="addModal" class="modal">
+      <div class="modal-content">
+        <h3>Add Transaction</h3>
+        <form id="trans-form">
+          <input type="number" id="f-amount" placeholder="Amount" required />
+          <input type="text" id="f-desc" placeholder="Description" required />
+          <select id="f-category">
+            <option value="Food">Food</option>
+            <option value="Rent">Rent</option>
+            <option value="Salary">Salary</option>
+            <option value="Entertainment">Entertainment</option>
+          </select>
+          <select id="f-type">
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+          <input type="date" id="f-date" required />
+          <div class="modal-btns">
+            <button type="button" onclick="closeModal()">Cancel</button>
+            <button type="submit" class="btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <footer></footer>
+    <script src="script.js"></script>
+  </body>
+</html>
