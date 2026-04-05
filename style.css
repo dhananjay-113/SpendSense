@@ -199,10 +199,27 @@ th {
 
 
 @media (max-width: 768px) {
-  .summary-grid {
-    grid-template-columns: 1fr;
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1rem;
   }
-} 
+   table {
+    min-width: 500px;
+  }
+   .fab {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    width: 52px;
+    height: 52px;
+  }
+  .modal-content {
+    width: 90%;
+    margin: 30% auto;
+  }
+}
+}
 .fab {
   position: fixed;
   bottom: 2rem;
